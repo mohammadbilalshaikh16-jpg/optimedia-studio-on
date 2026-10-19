@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: optimedia-studio
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: Dockerfile
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production

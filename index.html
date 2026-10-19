@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Gracefully handle Vite development WebSocket/HMR disconnects & reconnects
+      // so they never crash, interrupt, or falsely fail media optimization.
+      window.addEventListener('unhandledrejection', function(event) {
+        var reason = event.reason;
+        var msg = (reason && (reason.message || reason.stack || String(reason))) || '';
+        if (
+          msg.indexOf('WebSocket') !== -1 ||
+          msg.indexOf('websocket') !== -1 ||
+          msg.indexOf('[vite]') !== -1 ||
+          msg.indexOf('vite:ws') !== -1
+        ) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      });
+      window.addEventListener('error', function(event) {
+        var msg = (event && (event.message || '')) || '';
+        if (
+          msg.indexOf('WebSocket') !== -1 ||
+          msg.indexOf('websocket') !== -1 ||
+          msg.indexOf('[vite]') !== -1
+        ) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      });
+    </script>
+    <title>OptiMedia Studio - Image & Video Optimizer</title>
+    <meta name="description" content="High-performance client-side image and video optimizer, batch compression, format conversion, and visual inspector." />
+    <meta property="og:title" content="OptiMedia Studio - Image & Video Optimizer" />
+    <meta property="og:description" content="High-performance client-side image and video optimizer, batch compression, format conversion, and visual inspector." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body class="bg-neutral-950 text-neutral-100 antialiased selection:bg-emerald-500/20 selection:text-emerald-300">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

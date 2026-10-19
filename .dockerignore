@@ -1,0 +1,11 @@
+node_modules
+dist
+dist-bin
+.git
+.gitignore
+.env
+tmp
+/tmp
+*.log
+npm-debug.log*
+.aistudio
