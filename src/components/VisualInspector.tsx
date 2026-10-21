@@ -771,6 +771,7 @@ export const VisualInspector: React.FC<VisualInspectorProps> = ({
                             preload="metadata"
                             muted={isMuted}
                             controls={useNativeControls}
+                            onTimeUpdate={handleTimeUpdate}
                             onEnded={() => setIsPlaying(false)}
                             onError={() => setOptLoadError('Optimized video cannot be decoded natively by this browser. Download to play.')}
                           />

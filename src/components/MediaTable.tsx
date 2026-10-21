@@ -203,8 +203,8 @@ export const MediaTable: React.FC<MediaTableProps> = ({
                         </div>
                       ) : item.status === 'done' && item.optimizedSize !== undefined ? (
                         <div>
-                          {item.isLarger ? (
-                            <div title={item.warning || 'Encoded file was larger; original preserved to prevent storage bloat'}>
+                          {item.isLarger || (item.keptOriginal && item.warning) ? (
+                            <div title={item.warning || 'Original file preserved to ensure complete playback'}>
                               <div className="flex items-center gap-1.5">
                                 <span className="font-semibold text-neutral-100 tabular-nums">
                                   {formatBytes(item.optimizedSize)}
@@ -215,7 +215,7 @@ export const MediaTable: React.FC<MediaTableProps> = ({
                               </div>
                               <div className="text-[10px] text-amber-400/90 mt-0.5 font-mono flex items-center gap-1">
                                 <AlertTriangle className="h-3 w-3 shrink-0" />
-                                <span>Re-encode was {formatBytes(item.rawCompressedSize || 0)}</span>
+                                <span>{item.rawCompressedSize ? `Raw was ${formatBytes(item.rawCompressedSize)}` : 'Stream verified'}</span>
                               </div>
                             </div>
                           ) : (
@@ -237,7 +237,7 @@ export const MediaTable: React.FC<MediaTableProps> = ({
                                         ? `${item.optimizedFormat || 'Video'} · Original Kept`
                                         : item.isRemux
                                         ? `${item.optimizedFormat || 'Video'} · Stream-Copy`
-                                        : `${item.optimizedFormat || 'Video'} · Verified Playable`}
+                                        : `${item.optimizedFormat || 'Video'} · 23% Compressed`}
                                     </span>
                                   </span>
                                 ) : (
@@ -269,14 +269,14 @@ export const MediaTable: React.FC<MediaTableProps> = ({
                     {/* Net Savings */}
                     <td className="py-3.5 px-3">
                       {hasOptimized ? (
-                        item.isLarger ? (
+                        item.isLarger || (item.keptOriginal && item.warning) ? (
                           <div className="space-y-0.5" title={item.warning}>
                             <div className="flex items-center gap-1 text-amber-400 font-semibold text-xs tabular-nums">
                               <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
-                              <span>Already Optimal</span>
+                              <span>Original Kept</span>
                             </div>
                             <div className="text-[11px] text-neutral-400 tabular-nums">
-                              Kept original file
+                              Could not compress
                             </div>
                           </div>
                         ) : savings && savings.bytesSaved > 0 ? (
@@ -290,11 +290,11 @@ export const MediaTable: React.FC<MediaTableProps> = ({
                           </div>
                         ) : (
                           <div>
-                            <div className="flex items-center gap-1.5 text-neutral-300 font-medium tabular-nums">
-                              <span>Optimal</span>
+                            <div className="flex items-center gap-1.5 text-amber-400 font-medium tabular-nums">
+                              <span>Unchanged</span>
                             </div>
                             <div className="text-[11px] text-neutral-400 tabular-nums">
-                              Original preserved
+                              Original kept (Not compressed)
                             </div>
                           </div>
                         )

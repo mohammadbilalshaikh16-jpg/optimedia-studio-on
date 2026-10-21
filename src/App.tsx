@@ -15,6 +15,7 @@ import {
   getVideoMetadata,
   optimizeVideo,
   detectVideoFormat,
+  getOrCreateAudioContext,
   MAX_VIDEO_SIZE_BYTES,
   MAX_VIDEO_SIZE_ERROR,
 } from './utils/videoOptimizer';
@@ -277,6 +278,9 @@ export default function App() {
 
   // Optimize a single media item with smart defaults
   const processItem = async (item: MediaItem) => {
+    // Awaken shared audio graph during user click interaction
+    getOrCreateAudioContext();
+
     setItems((prev) =>
       prev.map((i) => (i.id === item.id ? { ...i, status: 'processing', progress: 5 } : i))
     );
@@ -418,6 +422,7 @@ export default function App() {
 
   // Optimize all pending items with conservative sequential video processing
   const handleProcessAll = async () => {
+    getOrCreateAudioContext();
     setIsProcessingBatch(true);
     const pendingItems = items.filter((i) => i.status === 'idle' || i.status === 'error');
 
